@@ -27,11 +27,16 @@ def check_win():
             grid[2][0] == grid[2][1] == grid[2][2] != " "  or \
                 grid[0][0] == grid[1][0] == grid[2][0] != " "  or \
                     grid[0][1] == grid[1][1] == grid[2][1] != " "  or \
-                        grid[0][2] == grid[0][2] == grid[0][2] != " "  or \
+                        grid[0][2] == grid[1][2] == grid[2][2] != " "  or \
                             grid[0][0] == grid[1][1] == grid[2][2] != " "  or \
                                 grid[2][0] == grid[1][1] == grid[0][2] != " " ):
-        return True
-    return False
+        return "win"
+    elif (grid[0][0] != " " and grid[0][1] != " " and grid[0][2] != " " and \
+        grid[1][0] != " " and grid[1][1] != " " and grid[1][2] != " " and \
+            grid[2][0] != " " and grid[2][1] != " " and grid[2][2] != " "):
+        return "tie"
+    else:
+        return "continue"
 
 # Process user input
 def play_new_game(user_input):
@@ -75,6 +80,9 @@ def print_grid():
     print("-------------")
     
 def change_player():
+    '''
+    
+    '''
     global player
     if player == "O":
         player = "X"
@@ -82,18 +90,20 @@ def change_player():
         player = "O"
 
 def main():
-    user_new_game = input("Welcome to Tic Tac Toe.  Would you like to play a new game? [Y, N] ")
-    if play_new_game(user_new_game):
-        initialize_grid()
-    else:
-        print("Exiting Game")
-        sys.exit()
+    # user_new_game = input("Welcome to Tic Tac Toe.  Would you like to play a new game? [Y, N] ")
+    # if play_new_game(user_new_game):
+    #     initialize_grid()
+    # else:
+    #     print("Exiting Game")
+    #     sys.exit()
+    
+    initialize_grid()
 
     continue_game = True
     while continue_game is True:
         print_grid()
-        user_row_input = literal_eval(input("Which row would you like to mark for player " + player + " (1, 2, or 3): "))
-        user_column_input = literal_eval(input("Which column would you like to mark for player " + player + " (1, 2, or 3): "))
+        user_row_input = literal_eval(input("Which row would you like to mark for player " + player + " (0, 1, or 2): "))
+        user_column_input = literal_eval(input("Which column would you like to mark for player " + player + " (0, 1, or 2): "))
         
         while check_valid_input(user_row_input, user_column_input) is False:
             print ("Sorry, that space is already taken. Provide a different entry.")
@@ -102,13 +112,24 @@ def main():
 
         mark_grid(user_row_input, user_column_input)
 
-        if check_win():
+        if check_win() == "win":
             print("***************************")
             print_grid()
             print("***************************")
             print("Congratulations, player", player, "won!")
+            print()
             continue_game = False
+        elif check_win() == "tie":
+            print("Sorry, tie game!")
+            continue_game = False
+            # play_again = input("Would you like to play again?")
+            # if play_again:
+            #     play_new_game()
         else:
             change_player()
 
+
+
 main()
+
+
