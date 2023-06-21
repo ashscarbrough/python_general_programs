@@ -1,27 +1,37 @@
-def fun(a, t, cl, cs, x1, x2, n):
-    # base case
-    if cs == n - 1:
-        if cl == 0:  # exiting from (current) line =0
-            return x1
-        else:  # exiting from line 2
-            return x2
-    # continue on same line
-    same = fun(a, t, cl, cs + 1, x1, x2, n) + a[cl][cs + 1]
-    # continue on different line
-    diff = fun(a, t, not cl, cs + 1, x1, x2, n) + a[not cl][cs + 1] + t[cl][cs + 1]
-    return min(same, diff)
+'''
+Python program to find minimum possible time for a full production item to complete
+- Production assembly line has multiple stations (n) to assemble a part
+- There may be multiple assembly lines
+- Items can be transfered between assembly lines to accelerate production
+'''
 
-n = 4  # number of stations
-a = [[4, 5, 3, 2], [2, 10, 1, 4]]  # time taken at each station
-t = [[0, 7, 4, 5], [0, 9, 2, 8]]  # time taken to switch lines
-e1 = 10  # time taken to enter first line
-e2 = 12  # time taken to enter second line
-x1 = 18  # time taken to exit first line
-x2 = 7  # time taken to exit second line
- 
-# entry from 1st line
-x = fun(a, t, 0, 0, x1, x2, n) + e1 + a[0][0]
-# entry from 2nd line
-y = fun(a, t, 1, 0, x1, x2, n) + e2 + a[1][0]
+def assembly(assembly_line, time_switch, entry_time, exit_time):
+    '''
+    Function to represent an assembly line and determine minimum time for production
+    '''
 
-print(min(x, y))
+    # Number of stations in assembly line
+    NUM_STATION = len(assembly_line[0])  # length of number of stations
+    TIMES_1 = [0 for i in range(NUM_STATION)]  # initialize times for line 1 stations
+    TIMES_2 = [0 for i in range(NUM_STATION)]  # initialize times for line 2 stations
+
+    TIMES_1[0] = entry_time[0] + assembly_line[0][0] # time taken to leave first station in line 1
+    TIMES_2[0] = entry_time[1] + assembly_line[1][0] # time taken to leave first station in line 2
+
+    # Fill tables T1[] and T2[] using above given recursive relations
+    for i in range(1, NUM_STATION):
+        TIMES_1[i] = min(TIMES_1[i-1] + assembly_line[0][i],
+                    TIMES_2[i-1] + time_switch[1][i] + assembly_line[0][i])
+        TIMES_2[i] = min(TIMES_2[i-1] + assembly_line[1][i],
+                    TIMES_1[i-1] + time_switch[0][i] + assembly_line[1][i] )
+
+    # consider exit times and return minimum
+    return min(TIMES_1[NUM_STATION - 1] + exit_time[0],
+               TIMES_2[NUM_STATION - 1] + exit_time[1])
+
+assembly_line_times = [[4, 5, 3, 2], [2, 10, 1, 4]]  # time taken at each station per assembly line
+time_switch_lines = [[0, 7, 4, 5], [0, 9, 2, 8]]  # time taken to switch assembly lines
+entrance_times = [10, 12]  # time taken to enter asembly lines
+exit_times = [18, 7]  # time taken to exit assembly lines
+
+print(assembly(assembly_line_times, time_switch_lines, entrance_times, exit_times))

@@ -1,89 +1,119 @@
+'''
+Classes and functions for traversal of binary tree
+'''
+
 class TreeNode:
+    '''
+    Tree Node Class to represent Binary tree node
+    Attributes:
+        - value
+        - left pointer
+        - right pointer
+    '''
     def __init__(self, val):
         self.val = val
         self.left = None
-        self.right = None 
+        self.right = None
 
-# In-Order Traversal
+    def __str__(self):
+        return str(self.val)
 
-def inorderTraversal(root):
+    def print_tree(self):
+        '''
+        Method to print binary tree node value
+        '''
+        print(self.val)
+
+
+#### In-Order Traversal ####
+def inorder_traversal(binary_tree_root):
+    '''
+    Function to traverse binary tree In-Order
+    Input: binary_tree_root - (TreeNode object)
+    Output: answer - (list) for in order traversal
+    '''
     answer = []
 
-    inorderTraversalUtil(root, answer)
+    inorder_traversal_util(binary_tree_root, answer)
     return answer
 
-def inorderTraversalUtil(root, answer):
+def inorder_traversal_util(root_node, answer):
+    '''
+    Function for utility iterator to recursively traverse binary tree In-Order
+    Input: 
+        - root_node - (TreeNode object) root node to traverse from
+        - answer - list() to store the order of In-Order traversal
+    Output: None
+    '''
 
-    if root is None:
+    if root_node is None:
         return
 
-    inorderTraversalUtil(root.left, answer)
-    answer.append(root.val)
-    inorderTraversalUtil(root.right, answer)
+    inorder_traversal_util(root_node.left, answer)
+    answer.append(root_node.val)
+    inorder_traversal_util(root_node.right, answer)
     return
 
-root = TreeNode(1)
-root.left = TreeNode(2)
-root.right = TreeNode(3)
-root.left.left = TreeNode(4)
-root.left.right = TreeNode(5)
 
-print(inorderTraversal(root))
-
-## Pre-order Traversal
-
-def preorderTraversal(root):
+#### Pre-order Traversal ####
+def preorder_traversal(binary_tree_root):
+    '''
+    Function
+    '''
     answer = []
 
-    preorderTraversalUtil(root, answer)
+    preorder_traversal_util(binary_tree_root, answer)
     return answer
 
-def preorderTraversalUtil(root, answer):
+def preorder_traversal_util(root_node, answer):
+    '''
+    Function
+    '''
+    if root_node is None:
+        return
 
-    if root is None:
-        return 
+    answer.append(root_node.val)
 
-    answer.append(root.val)
+    preorder_traversal_util(root_node.left, answer)
 
-    preorderTraversalUtil(root.left, answer)
-
-    preorderTraversalUtil(root.right, answer)
+    preorder_traversal_util(root_node.right, answer)
 
     return
-
-root = TreeNode(1)
-root.left = TreeNode(2)
-root.right = TreeNode(3)
-root.left.left = TreeNode(4)
-root.left.right = TreeNode(5)
-
-print(preorderTraversal(root))
-
 
 # PostOrder Traversal
-def postorderTraversal(root):
+def postorder_traversal(binary_tree_root):
+    '''
+    Function
+    '''
     answer = []
 
-    postorderTraversalUtil(root, answer)
+    postorder_traversal_util(binary_tree_root, answer)
     return answer
 
-def postorderTraversalUtil(root, answer):
-
-    if root is None:
+def postorder_traversal_util(root_node, answer):
+    '''
+    Function
+    '''
+    if root_node is None:
         return
 
-    postorderTraversalUtil(root.left, answer)
+    postorder_traversal_util(root_node.left, answer)
 
-    postorderTraversalUtil(root.right, answer)
+    postorder_traversal_util(root_node.right, answer)
 
-    answer.append(root.val)
+    answer.append(root_node.val)
 
     return
 
-root = TreeNode(1)
-root.left = TreeNode(2)
-root.right = TreeNode(3)
-root.left.left = TreeNode(4)
-root.left.right = TreeNode(5)
 
-print(postorderTraversal(root))
+if __name__ == "__main__":
+    root = TreeNode(1)
+    root.left = TreeNode(2)
+    root.right = TreeNode(3)
+    root.left.left = TreeNode(4)
+    root.left.right = TreeNode(5)
+
+
+    print(inorder_traversal(root))
+    print(preorder_traversal(root))
+    print(postorder_traversal(root))
