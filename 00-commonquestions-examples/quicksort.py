@@ -1,9 +1,12 @@
-# Python program for implementation of Quicksort Sort
-
-# This implementation utilizes pivot as the last element in the nums list
-# It has a pointer to keep track of the elements smaller than the pivot
-# At the very end of partition() function, the pointer is swapped with the pivot
-# to come up with a "sorted" nums relative to the pivot
+'''
+Python program for implementation of Quicksort Sort
+ - This implementation utilizes pivot as the last element in the nums list
+ - It has a pointer to keep track of the elements smaller than the pivot
+ - At the very end of partition() function, the pointer is swapped with the pivot
+   to come up with a "sorted" nums relative to the pivot
+   
+   Complexity of O(logN)
+'''
 
 
 # Function to find the partition position
@@ -37,6 +40,11 @@ def partition(array, low, high):
 
 
 def quickSort(array, low, high):
+    '''
+    Quick Sort function 
+    Input:
+        - array - (List())
+    '''
     if low < high:
 
         # Find pivot element such that
@@ -50,14 +58,14 @@ def quickSort(array, low, high):
         # Recursive call on the right of pivot
         quickSort(array, pi + 1, high)
 
+if __name__ == "__main__":
+    data = [1, 7, 4, 1, 10, 9, -2]
+    print("Unsorted Array")
+    print(data)
 
-data = [1, 7, 4, 1, 10, 9, -2]
-print("Unsorted Array")
-print(data)
+    size = len(data)
 
-size = len(data)
+    quickSort(data, 0, size - 1)
 
-quickSort(data, 0, size - 1)
-
-print('Sorted Array in Ascending Order:')
-print(data)
+    print('Sorted Array in Ascending Order:')
+    print(data)
